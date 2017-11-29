@@ -1,48 +1,20 @@
 import processing.net.*;
 import java.util.Map;
 
-class Pincel{
-  public float X;
-  public float Y;
-  public float raio;
-  public color cor;
-  
-  Pincel(float X, float Y, float raio){
-    this.X = X;
-    this.Y = Y;
-    this.raio = raio;
-    this.cor = color(127 + random(127), 127 + random(127), 127 + random(127), 31);
-    this.pintar();
-  };
-  
-  public Pincel atualizar(float X, float Y, float raio){
-    this.X = X;
-    this.Y = Y;
-    this.raio = raio;
-    this.pintar();
-    return this;
-  };
-  
-  public void pintar(){
-    pushStyle();
-    noStroke();
-    fill(red(this.cor), green(this.cor), blue(this.cor), 7 + this.Y / height * 63);
-    ellipse(this.X, this.Y, this.raio, this.raio);
-    popStyle();
-  };
-};
+int porta_servidor = 5204;
 
 Server servidor;
 Map<String, Pincel> clientes;
 
 void setup(){
-  size(1024, 712);
+  size(1024, 768);
+  colorMode(HSB, hsb_mode);
   background(0);
   
-  servidor = new Server(this, 5204);
+  servidor = new Server(this, porta_servidor);
   clientes = new HashMap<String, Pincel>();
   
-  println("Endereço do servidor: " + Server.ip());
+  println("Endereço do servidor: " + Server.ip() + ":" + porta_servidor);
 };
 
 void draw(){
@@ -56,10 +28,11 @@ void draw(){
         float X = int(valores[1]);
         float Y = int(valores[2]);
         float raio = float(valores[3]);
+        float matiz = float(valores[4]);
         if (clientes.containsKey(clienteId)){
-          clientes.put(clienteId, clientes.get(clienteId).atualizar(X, Y, raio));
+          clientes.put(clienteId, clientes.get(clienteId).atualizar(X, Y, raio, matiz));
         } else {
-          clientes.put(clienteId, new Pincel(X, Y, raio));
+          clientes.put(clienteId, new Pincel(X, Y, raio, matiz));
         }
       } else {
         break;
