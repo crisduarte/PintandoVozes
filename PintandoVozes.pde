@@ -61,9 +61,7 @@ void draw(){
         } else {
           clientes.put(clienteId, new Pincel(X, Y, raio));
         }
-      } else {
-        break;
-      }
-    };
+      } else break;
+    }
   }
 };
