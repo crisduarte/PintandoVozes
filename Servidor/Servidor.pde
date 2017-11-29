@@ -48,18 +48,22 @@ void setup(){
 void draw(){
   Client cliente = servidor.available();
   if (cliente != null) {
-    String dado = cliente.readStringUntil(0x0A);
-    if (dado != null) {
-      String[] valores = dado.split(";");
-      String clienteId = valores[0];
-      float X = int(valores[1]);
-      float Y = int(valores[2]);
-      float raio = float(valores[3]);
-      if (clientes.containsKey(clienteId)){
-        clientes.put(clienteId, clientes.get(clienteId).atualizar(X, Y, raio));
+    while (cliente.available() > 0){
+      String dado = cliente.readStringUntil(0x0A);
+      if (dado != null) {
+        String[] valores = dado.split(";");
+        String clienteId = valores[0];
+        float X = int(valores[1]);
+        float Y = int(valores[2]);
+        float raio = float(valores[3]);
+        if (clientes.containsKey(clienteId)){
+          clientes.put(clienteId, clientes.get(clienteId).atualizar(X, Y, raio));
+        } else {
+          clientes.put(clienteId, new Pincel(X, Y, raio));
+        }
       } else {
-        clientes.put(clienteId, new Pincel(X, Y, raio));
+        break;
       }
-    }
+    };
   }
 };
