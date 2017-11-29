@@ -37,7 +37,7 @@ class Pincel{
   public void pintar(){
     pushStyle();
     noStroke();
-    fill(color(this.matiz - this.alturaRelativa(76, -38), hsb_mode - this.alturaRelativa(hsb_mode), hsb_mode - pow(this.alturaRelativa(), 2) * hsb_mode), 31);
+    fill(color(this.matiz - this.alturaRelativa(76, -38), hsb_mode - this.alturaRelativa(hsb_mode), hsb_mode - pow(this.alturaRelativa(), 2) * hsb_mode), 7);
     ellipse(this.X, this.Y, this.raio, this.raio);
     popStyle();
   };
